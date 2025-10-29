@@ -45,3 +45,4 @@ temp/
 # Database
 *.sqlite
 *.db
+backend/NUL
