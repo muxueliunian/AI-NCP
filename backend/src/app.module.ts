@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './config/database.config';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { NovelModule } from './modules/novel/novel.module';
 
 @Module({
   imports: [
@@ -20,8 +21,8 @@ import { AuthModule } from './modules/auth/auth.module';
     UserModule,
     AuthModule,
 
-    // 业务模块将在此处导入
-    // NovelModule,
+    // 业务模块
+    NovelModule,
     // ChapterModule,
     // WorkflowModule,
     // AIProviderModule,

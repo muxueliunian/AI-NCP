@@ -4,15 +4,29 @@
 
 ## ✨ 当前进度
 
-**项目状态**: 🚧 开发中 (40% 完成)
+**项目状态**: 🚧 开发中 (50% 完成 - v0.4.0-alpha)
+**最后更新**: 2025-11-06
 
-- ✅ 前端登录界面 (100%)
+### 模块完成度
+- ✅ 项目基础架构 (100%)
 - ✅ 后端用户认证模块 (100%)
+- ✅ 前端登录注册界面 (100%)
 - ✅ 前端UX优化 (100%)
 - ✅ 开发文档体系 (100%)
-- ⏳ 小说管理模块 (0%)
+- ✅ 数据库实体设计 (100%)
+- ✅ 小说管理模块 (100%) ⭐ **NEW**
+- ⏳ 前端小说管理界面 (0% - 下一步)
 - ⏳ AI适配层 (0%)
 - ⏳ 创作工作流 (0%)
+
+### 进度条
+```
+[██████████░░░░░░░░░░] 50%
+
+已完成: 基础架构、认证系统、小说管理API
+进行中: 无
+下一步: 前端小说界面、AI适配层、大纲生成
+```
 
 ## 技术栈
 
@@ -40,12 +54,22 @@
   - 角色管理 (USER / ADMIN)
   - 受保护的API端点
 
-- 🎨 **登录界面**
-  - 响应式设计
+- 📚 **小说管理 (Novel CRUD)** ⭐ **NEW**
+  - 创建小说项目 (POST /novels)
+  - 获取小说列表 (GET /novels)
+  - 获取单个小说详情 (GET /novels/:id)
+  - 更新小说信息 (PATCH /novels/:id)
+  - 删除小说 (DELETE /novels/:id)
+  - 权限控制 (用户只能操作自己的小说)
+  - 数据验证 (标题、题材、风格、背景设定)
+  - 小说状态管理 (草稿、创作中、已完成等)
+
+- 🎨 **前端界面**
+  - 登录/注册页面 (响应式设计)
+  - 用户首页 / 管理员首页
   - 前端表单验证
-  - 邮箱格式验证
-  - 密码长度验证 (最少6字符)
-  - 错误提示
+  - Toast 通知组件
+  - 统一错误处理
 
 ### 计划实现 🔜
 - 🤖 **多AI模型支持**: 灵活切换不同厂商的大模型
@@ -64,7 +88,7 @@ novel/
 │   │   ├── modules/
 │   │   │   ├── user/         # ✅ 用户模块
 │   │   │   ├── auth/         # ✅ 认证模块
-│   │   │   ├── novel/        # ⏳ 小说管理 (实体已完成)
+│   │   │   ├── novel/        # ✅ 小说管理 (CRUD完整)
 │   │   │   ├── chapter/      # ⏳ 章节管理 (实体已完成)
 │   │   │   ├── ai-provider/  # ⏳ AI模型适配层
 │   │   │   └── workflow/     # ⏳ 创作流程
@@ -77,16 +101,19 @@ novel/
 │   └── .env.example          # 环境变量模板
 ├── frontend/                 # React前端
 │   ├── src/
-│   │   ├── pages/            # ✅ 页面组件
-│   │   │   ├── LoginPage.tsx    # 登录页
-│   │   │   └── HomePage.tsx     # 首页
-│   │   ├── components/       # 组件目录
-│   │   ├── services/         # API服务层
+│   │   ├── pages/            # ✅ 认证页面
+│   │   │   ├── LoginPage.tsx      # 登录页
+│   │   │   ├── RegisterPage.tsx   # 注册页
+│   │   │   ├── UserHomePage.tsx   # 用户首页
+│   │   │   └── AdminHomePage.tsx  # 管理员首页
+│   │   ├── components/       # ✅ Toast组件
+│   │   ├── services/         # ✅ API服务层
+│   │   ├── hooks/            # ✅ 自定义Hooks
 │   │   └── types/            # TypeScript类型定义
 │   ├── package.json
 │   └── vite.config.ts
 ├── README.md                 # 本文件
-├── prompt.md                 # 项目进度记录
+├── API_DOCUMENTATION.md      # API接口文档
 └── .gitignore
 ```
 
@@ -165,7 +192,8 @@ npm run dev
 1. **后端验证**:
    - 访问 http://localhost:3000/api-docs
    - 应该看到 Swagger API 文档
-   - 查看 "auth" 标签下的3个端点: register, login, profile
+   - 查看 "auth" 标签下的 3 个端点: register, login, profile
+   - 查看 "novels" 标签下的 5 个端点: POST/GET/PATCH/DELETE
 
 2. **前端验证**:
    - 访问 http://localhost:3002
@@ -210,54 +238,45 @@ npm run dev
 ### 3. 访问受保护的端点
 
 1. 在 Swagger 页面右上角点击 "Authorize" 按钮
-2. 输入: `Bearer <your-token>`
-3. 现在可以访问 `GET /auth/profile` 等受保护的API
+2. 输入 Token (不要加 "Bearer " 前缀，Swagger 会自动添加)
+3. 现在可以访问 `GET /auth/profile`、`POST /novels` 等受保护的API
+
+### 4. 创建第一个小说
+
+1. 确保已经登录并授权 (参考步骤2和3)
+2. 在 Swagger 中找到 `POST /novels` 端点
+3. 点击 "Try it out"
+4. 输入小说信息:
+```json
+{
+  "title": "修仙之路",
+  "genre": "玄幻",
+  "style": "热血",
+  "setting": "一个少年从小村庄开始的修仙之旅",
+  "description": "这是一个关于修仙的故事"
+}
+```
+5. 点击 "Execute"，应该返回 201 Created
 
 ## API文档
 
-### 认证相关
+### 已实现的 API 端点 (8个)
 
-#### POST /auth/register
-注册新用户
-- **Body**:
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "password123",
-    "name": "User Name"  // 可选
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "accessToken": "jwt-token-here",
-    "user": {
-      "id": "uuid",
-      "email": "user@example.com",
-      "name": "User Name",
-      "role": "user",
-      "createdAt": "2025-10-29T..."
-    }
-  }
-  ```
+#### 认证相关 (3个)
+- `POST /auth/register` - 用户注册
+- `POST /auth/login` - 用户登录
+- `GET /auth/profile` - 获取当前用户信息 (需要认证)
 
-#### POST /auth/login
-用户登录
-- **Body**:
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "password123"
-  }
-  ```
-- **Response**: 与注册相同
+#### 小说管理 (5个) ⭐ **NEW**
+- `POST /novels` - 创建小说 (需要认证)
+- `GET /novels` - 获取小说列表 (需要认证)
+- `GET /novels/:id` - 获取单个小说详情 (需要认证)
+- `PATCH /novels/:id` - 更新小说信息 (需要认证)
+- `DELETE /novels/:id` - 删除小说 (需要认证)
 
-#### GET /auth/profile (需要认证)
-获取当前用户信息
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**: 用户信息对象
-
-完整API文档: http://localhost:3000/api-docs
+**完整API文档**:
+- Swagger UI: http://localhost:3000/api-docs
+- 详细文档: [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
 
 ## 📚 开发文档
 
@@ -309,10 +328,24 @@ SELECT * FROM users;  # 查看用户数据
 - `createdAt`: 创建时间
 - `updatedAt`: 更新时间
 
-**novels** (小说表 - 已定义，待实现CRUD)
-**chapters** (章节表 - 已定义，待实现CRUD)
-**outlines** (大纲表 - 已定义，待实现CRUD)
-**reviews** (审稿表 - 已定义，待实现CRUD)
+**novels** (小说表 - ✅ CRUD已实现)
+- `id`: UUID 主键
+- `userId`: 用户ID (外键)
+- `title`: 小说标题
+- `genre`: 题材类型
+- `style`: 写作风格
+- `setting`: 背景设定
+- `description`: 小说简介
+- `status`: 状态 (draft/outline/writing/reviewing/completed)
+- `totalChapters`: 总章节数
+- `completedChapters`: 已完成章节数
+- `totalWords`: 总字数
+- `createdAt`: 创建时间
+- `updatedAt`: 更新时间
+
+**outlines** (大纲表 - 已定义，待实现)
+**chapters** (章节表 - 已定义，待实现)
+**reviews** (审稿表 - 已定义，待实现)
 
 ## 开发计划
 
@@ -320,7 +353,7 @@ SELECT * FROM users;  # 查看用户数据
 - [x] 项目初始化
 - [x] 后端框架搭建 (NestJS)
 - [x] 前端框架搭建 (React + Vite)
-- [x] 数据库设计 (4个核心实体)
+- [x] 数据库设计 (5个核心实体: User, Novel, Outline, Chapter, Review)
 - [x] 用户认证模块
   - [x] User Entity (含role字段)
   - [x] Auth DTOs
@@ -328,46 +361,76 @@ SELECT * FROM users;  # 查看用户数据
   - [x] Auth Service (JWT)
   - [x] JWT Strategy & Guard
   - [x] Auth Controller (register/login/profile)
-- [x] 前端登录界面
-  - [x] 登录表单组件
-  - [x] 表单验证
-  - [x] 路由配置
+  - [x] 自定义装饰器 (@CurrentUser)
+- [x] 前端认证界面
+  - [x] 登录页面 (LoginPage)
+  - [x] 注册页面 (RegisterPage)
+  - [x] 用户首页 (UserHomePage)
+  - [x] 管理员首页 (AdminHomePage)
+  - [x] 前后端完整集成
+- [x] 前端UX优化
+  - [x] Toast通知组件
+  - [x] useToast Hook
+  - [x] 统一错误处理
+- [x] 开发文档体系
+  - [x] API_DOCUMENTATION.md (~5,000字)
+  - [x] ERROR_CODES.md (~4,000字)
+  - [x] DEVELOPMENT_GUIDE.md (~6,000字)
+  - [x] DOCS_INDEX.md
+  - [x] AUTHENTICATION_GUIDE.md
+  - [x] UX_IMPROVEMENTS.md
+- [x] **小说管理模块 (Novel CRUD)** ⭐ **NEW**
+  - [x] Novel Entity (已存在)
+  - [x] Novel DTOs (CreateNovelDto, UpdateNovelDto)
+  - [x] Novel Service (create/findAll/findOne/update/remove)
+  - [x] Novel Controller (5个API端点)
+  - [x] Novel Module (注册到AppModule)
+  - [x] 权限控制 (用户只能操作自己的小说)
+  - [x] 数据验证 (class-validator)
+  - [x] Swagger文档完善
+  - [x] API测试通过
 
 ### 进行中 🔄
-- [ ] 更新项目文档
+- 无
 
 ### 待实现 📋
 
-**阶段2: 小说管理模块**
-- [ ] Novel CRUD (创建、读取、更新、删除)
-- [ ] 用户与小说关联
-- [ ] 小说列表、详情页面
+**阶段2: 前端小说管理界面** (当前阶段 - 优先级 ⭐⭐⭐⭐)
+- [ ] 前端类型定义 (Novel interface)
+- [ ] novelService (API调用封装)
+- [ ] NovelListPage (小说列表页)
+- [ ] CreateNovelPage (创建小说页)
+- [ ] NovelDetailPage (小说详情页)
+- [ ] 路由配置和导航
 
-**阶段3: AI适配层**
-- [ ] 统一AI接口设计
-- [ ] OpenAI适配器
+**阶段3: AI适配层** (优先级 ⭐⭐⭐⭐⭐)
+- [ ] 统一AI接口设计 (IAIProvider)
+- [ ] OpenAI适配器 (优先)
 - [ ] Anthropic适配器
 - [ ] Google Gemini适配器
-- [ ] 国内厂商适配器 (百度/阿里/腾讯)
+- [ ] 国内厂商适配器 (百度/阿里/腾讯/深度求索)
+- [ ] AI Provider工厂模式
 
 **阶段4: 创作工作流**
-- [ ] 大纲生成功能
-- [ ] 章节创作功能
-- [ ] 智能审稿功能
-- [ ] 流式输出支持
+- [ ] 大纲生成功能 (OutlineService)
+- [ ] 章节创作功能 (ChapterService)
+- [ ] 智能审稿功能 (ReviewService)
+- [ ] 流式输出支持 (SSE)
+- [ ] Prompt模板管理
 
 **阶段5: 前端完善**
-- [ ] 前端Auth集成 (连接后端API)
-- [ ] 小说管理界面
-- [ ] 大纲编辑器
-- [ ] 章节创作器
-- [ ] 审稿结果展示
+- [ ] 大纲编辑器页面
+- [ ] 章节创作器页面
+- [ ] 审稿结果展示页面
+- [ ] AI配置页面
+- [ ] 流式文本显示组件
 
 **阶段6: 优化与部署**
-- [ ] 性能优化
+- [ ] 性能优化 (缓存、并发控制)
 - [ ] 单元测试
 - [ ] E2E测试
 - [ ] 部署文档
+- [ ] 错误处理和日志系统
 
 ## 常见问题
 
@@ -439,6 +502,19 @@ MIT License
 
 ---
 
-**最后更新**: 2025-10-29
-**当前版本**: 0.4.0-alpha
-**下一里程碑**: Novel CRUD Module
+## 📊 项目统计
+
+- **代码行数**: ~16,000+ 行 (新增 ~800 行)
+- **文档字数**: ~25,000+ 字 (新增 ~2,000 字)
+- **API端点**: 8个已实现 ✅ (3个认证 + 5个小说管理)
+- **前端页面**: 4个已完成 (认证相关)
+- **数据库实体**: 5个已定义，1个已实现CRUD (Novel)
+- **AI厂商支持**: 0/7 (计划支持)
+
+---
+
+**最后更新**: 2025-11-06
+**当前版本**: v0.4.0-alpha
+**完成度**: 50%
+**下一里程碑**: 前端小说管理界面 (预计1-2天)
+**下下里程碑**: AI适配层 + OpenAI集成 (预计2-3天)
