@@ -23,6 +23,7 @@ const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const database_config_1 = __webpack_require__(/*! ./config/database.config */ "./src/config/database.config.ts");
 const user_module_1 = __webpack_require__(/*! ./modules/user/user.module */ "./src/modules/user/user.module.ts");
 const auth_module_1 = __webpack_require__(/*! ./modules/auth/auth.module */ "./src/modules/auth/auth.module.ts");
+const novel_module_1 = __webpack_require__(/*! ./modules/novel/novel.module */ "./src/modules/novel/novel.module.ts");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -36,6 +37,7 @@ exports.AppModule = AppModule = __decorate([
             typeorm_1.TypeOrmModule.forRoot(database_config_1.dataSourceOptions),
             user_module_1.UserModule,
             auth_module_1.AuthModule,
+            novel_module_1.NovelModule,
         ],
         controllers: [],
         providers: [],
@@ -783,6 +785,104 @@ exports.Review = Review = __decorate([
 
 /***/ }),
 
+/***/ "./src/modules/novel/dto/create-novel.dto.ts":
+/*!***************************************************!*\
+  !*** ./src/modules/novel/dto/create-novel.dto.ts ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateNovelDto = void 0;
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+class CreateNovelDto {
+}
+exports.CreateNovelDto = CreateNovelDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '修仙之路',
+        description: '小说标题',
+        minLength: 1,
+        maxLength: 200,
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)({ message: '标题不能为空' }),
+    (0, class_validator_1.MinLength)(1, { message: '标题至少需要1个字符' }),
+    (0, class_validator_1.MaxLength)(200, { message: '标题最多200个字符' }),
+    __metadata("design:type", String)
+], CreateNovelDto.prototype, "title", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '玄幻',
+        description: '题材类型（如：玄幻、都市、科幻、武侠等）',
+        maxLength: 100,
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)({ message: '题材不能为空' }),
+    (0, class_validator_1.MaxLength)(100, { message: '题材最多100个字符' }),
+    __metadata("design:type", String)
+], CreateNovelDto.prototype, "genre", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '热血',
+        description: '写作风格（如：热血、轻松、严肃、幽默等）',
+        maxLength: 100,
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)({ message: '风格不能为空' }),
+    (0, class_validator_1.MaxLength)(100, { message: '风格最多100个字符' }),
+    __metadata("design:type", String)
+], CreateNovelDto.prototype, "style", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '一个少年从小村庄开始的修仙之旅，历经磨难最终成为一代仙尊',
+        description: '背景设定和世界观',
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)({ message: '背景设定不能为空' }),
+    __metadata("design:type", String)
+], CreateNovelDto.prototype, "setting", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        example: '这是一个关于修仙的故事，主角从一个普通少年成长为强者的传奇经历',
+        description: '小说简介（可选）',
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateNovelDto.prototype, "description", void 0);
+
+
+/***/ }),
+
+/***/ "./src/modules/novel/dto/update-novel.dto.ts":
+/*!***************************************************!*\
+  !*** ./src/modules/novel/dto/update-novel.dto.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UpdateNovelDto = void 0;
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+const create_novel_dto_1 = __webpack_require__(/*! ./create-novel.dto */ "./src/modules/novel/dto/create-novel.dto.ts");
+class UpdateNovelDto extends (0, swagger_1.PartialType)(create_novel_dto_1.CreateNovelDto) {
+}
+exports.UpdateNovelDto = UpdateNovelDto;
+
+
+/***/ }),
+
 /***/ "./src/modules/novel/entities/novel.entity.ts":
 /*!****************************************************!*\
   !*** ./src/modules/novel/entities/novel.entity.ts ***!
@@ -959,6 +1059,325 @@ __decorate([
 exports.Outline = Outline = __decorate([
     (0, typeorm_1.Entity)('outlines')
 ], Outline);
+
+
+/***/ }),
+
+/***/ "./src/modules/novel/novel.controller.ts":
+/*!***********************************************!*\
+  !*** ./src/modules/novel/novel.controller.ts ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.NovelController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const swagger_1 = __webpack_require__(/*! @nestjs/swagger */ "@nestjs/swagger");
+const novel_service_1 = __webpack_require__(/*! ./novel.service */ "./src/modules/novel/novel.service.ts");
+const create_novel_dto_1 = __webpack_require__(/*! ./dto/create-novel.dto */ "./src/modules/novel/dto/create-novel.dto.ts");
+const update_novel_dto_1 = __webpack_require__(/*! ./dto/update-novel.dto */ "./src/modules/novel/dto/update-novel.dto.ts");
+const novel_entity_1 = __webpack_require__(/*! ./entities/novel.entity */ "./src/modules/novel/entities/novel.entity.ts");
+const jwt_auth_guard_1 = __webpack_require__(/*! ../auth/guards/jwt-auth.guard */ "./src/modules/auth/guards/jwt-auth.guard.ts");
+const current_user_decorator_1 = __webpack_require__(/*! ../../common/decorators/current-user.decorator */ "./src/common/decorators/current-user.decorator.ts");
+const user_entity_1 = __webpack_require__(/*! ../user/entities/user.entity */ "./src/modules/user/entities/user.entity.ts");
+let NovelController = class NovelController {
+    constructor(novelService) {
+        this.novelService = novelService;
+    }
+    async create(user, createNovelDto) {
+        return await this.novelService.create(user.id, createNovelDto);
+    }
+    async findAll(user) {
+        return await this.novelService.findAll(user.id);
+    }
+    async findOne(id, user) {
+        return await this.novelService.findOne(id, user.id);
+    }
+    async update(id, user, updateNovelDto) {
+        return await this.novelService.update(id, user.id, updateNovelDto);
+    }
+    async remove(id, user) {
+        return await this.novelService.remove(id, user.id);
+    }
+};
+exports.NovelController = NovelController;
+__decorate([
+    (0, common_1.Post)(),
+    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
+    (0, swagger_1.ApiOperation)({ summary: '创建新小说' }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: '小说创建成功',
+        type: novel_entity_1.Novel,
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 400,
+        description: '请求参数验证失败',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: '未授权 - Token无效或缺失',
+    }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_b = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _b : Object, typeof (_c = typeof create_novel_dto_1.CreateNovelDto !== "undefined" && create_novel_dto_1.CreateNovelDto) === "function" ? _c : Object]),
+    __metadata("design:returntype", typeof (_d = typeof Promise !== "undefined" && Promise) === "function" ? _d : Object)
+], NovelController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: '获取当前用户的所有小说' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: '成功获取小说列表',
+        type: [novel_entity_1.Novel],
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: '未授权 - Token无效或缺失',
+    }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_e = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _e : Object]),
+    __metadata("design:returntype", typeof (_f = typeof Promise !== "undefined" && Promise) === "function" ? _f : Object)
+], NovelController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: '获取单个小说详情' }),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        description: '小说ID (UUID)',
+        example: '123e4567-e89b-12d3-a456-426614174000',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: '成功获取小说详情',
+        type: novel_entity_1.Novel,
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: '小说不存在',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: '未授权 - Token无效或缺失',
+    }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, typeof (_g = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _g : Object]),
+    __metadata("design:returntype", typeof (_h = typeof Promise !== "undefined" && Promise) === "function" ? _h : Object)
+], NovelController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: '更新小说信息' }),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        description: '小说ID (UUID)',
+        example: '123e4567-e89b-12d3-a456-426614174000',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: '小说更新成功',
+        type: novel_entity_1.Novel,
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: '小说不存在',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 400,
+        description: '请求参数验证失败',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: '未授权 - Token无效或缺失',
+    }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, typeof (_j = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _j : Object, typeof (_k = typeof update_novel_dto_1.UpdateNovelDto !== "undefined" && update_novel_dto_1.UpdateNovelDto) === "function" ? _k : Object]),
+    __metadata("design:returntype", typeof (_l = typeof Promise !== "undefined" && Promise) === "function" ? _l : Object)
+], NovelController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: '删除小说' }),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        description: '小说ID (UUID)',
+        example: '123e4567-e89b-12d3-a456-426614174000',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: '小说删除成功',
+        type: novel_entity_1.Novel,
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: '小说不存在',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: '未授权 - Token无效或缺失',
+    }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, typeof (_m = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _m : Object]),
+    __metadata("design:returntype", typeof (_o = typeof Promise !== "undefined" && Promise) === "function" ? _o : Object)
+], NovelController.prototype, "remove", null);
+exports.NovelController = NovelController = __decorate([
+    (0, swagger_1.ApiTags)('novels'),
+    (0, common_1.Controller)('novels'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    __metadata("design:paramtypes", [typeof (_a = typeof novel_service_1.NovelService !== "undefined" && novel_service_1.NovelService) === "function" ? _a : Object])
+], NovelController);
+
+
+/***/ }),
+
+/***/ "./src/modules/novel/novel.module.ts":
+/*!*******************************************!*\
+  !*** ./src/modules/novel/novel.module.ts ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.NovelModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
+const novel_entity_1 = __webpack_require__(/*! ./entities/novel.entity */ "./src/modules/novel/entities/novel.entity.ts");
+const novel_service_1 = __webpack_require__(/*! ./novel.service */ "./src/modules/novel/novel.service.ts");
+const novel_controller_1 = __webpack_require__(/*! ./novel.controller */ "./src/modules/novel/novel.controller.ts");
+let NovelModule = class NovelModule {
+};
+exports.NovelModule = NovelModule;
+exports.NovelModule = NovelModule = __decorate([
+    (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([novel_entity_1.Novel])],
+        controllers: [novel_controller_1.NovelController],
+        providers: [novel_service_1.NovelService],
+        exports: [novel_service_1.NovelService],
+    })
+], NovelModule);
+
+
+/***/ }),
+
+/***/ "./src/modules/novel/novel.service.ts":
+/*!********************************************!*\
+  !*** ./src/modules/novel/novel.service.ts ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.NovelService = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
+const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
+const novel_entity_1 = __webpack_require__(/*! ./entities/novel.entity */ "./src/modules/novel/entities/novel.entity.ts");
+let NovelService = class NovelService {
+    constructor(novelRepository) {
+        this.novelRepository = novelRepository;
+    }
+    async create(userId, createNovelDto) {
+        const novel = this.novelRepository.create({
+            ...createNovelDto,
+            userId,
+            status: novel_entity_1.NOVEL_STATUS.DRAFT,
+            totalChapters: 0,
+            completedChapters: 0,
+            totalWords: 0,
+        });
+        return await this.novelRepository.save(novel);
+    }
+    async findAll(userId) {
+        return await this.novelRepository.find({
+            where: { userId },
+            order: { createdAt: 'DESC' },
+        });
+    }
+    async findOne(id, userId) {
+        const novel = await this.novelRepository.findOne({
+            where: { id, userId },
+        });
+        if (!novel) {
+            throw new common_1.NotFoundException('小说不存在');
+        }
+        return novel;
+    }
+    async update(id, userId, updateNovelDto) {
+        const novel = await this.findOne(id, userId);
+        Object.assign(novel, updateNovelDto);
+        return await this.novelRepository.save(novel);
+    }
+    async remove(id, userId) {
+        const novel = await this.findOne(id, userId);
+        await this.novelRepository.remove(novel);
+        return novel;
+    }
+    async updateStats(id, totalChapters, completedChapters, totalWords) {
+        const novel = await this.novelRepository.findOne({ where: { id } });
+        if (!novel) {
+            throw new common_1.NotFoundException('小说不存在');
+        }
+        novel.totalChapters = totalChapters;
+        novel.completedChapters = completedChapters;
+        novel.totalWords = totalWords;
+        return await this.novelRepository.save(novel);
+    }
+    async updateStatus(id, status) {
+        const novel = await this.novelRepository.findOne({ where: { id } });
+        if (!novel) {
+            throw new common_1.NotFoundException('小说不存在');
+        }
+        novel.status = status;
+        return await this.novelRepository.save(novel);
+    }
+};
+exports.NovelService = NovelService;
+exports.NovelService = NovelService = __decorate([
+    (0, common_1.Injectable)(),
+    __param(0, (0, typeorm_1.InjectRepository)(novel_entity_1.Novel)),
+    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object])
+], NovelService);
 
 
 /***/ }),

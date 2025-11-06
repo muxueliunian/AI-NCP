@@ -61,14 +61,18 @@ const UserHomePage = () => {
             <div className="feature-icon">📚</div>
             <h3>My Novels</h3>
             <p>View and manage your novel projects</p>
-            <button className="btn-feature" disabled>Coming Soon</button>
+            <button className="btn-feature" onClick={() => navigate('/novels')}>
+              Go to Novels
+            </button>
           </div>
 
           <div className="feature-card">
             <div className="feature-icon">✍️</div>
             <h3>Create Novel</h3>
             <p>Start a new novel project with AI</p>
-            <button className="btn-feature" disabled>Coming Soon</button>
+            <button className="btn-feature" onClick={() => navigate('/novels/create')}>
+              Create Now
+            </button>
           </div>
 
           <div className="feature-card">

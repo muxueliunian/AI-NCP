@@ -1,0 +1,160 @@
+.page-header {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.page-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* 返回按钮 */
+.btn-back-header {
+  padding: 0.6rem 1.2rem;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #666;
+  transition: all 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.btn-back-header:hover {
+  background: #e0e0e0;
+  color: #333;
+  transform: translateX(-2px);
+}
+
+.btn-back-header:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* 中间区域 */
+.page-header-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+}
+
+/* 面包屑导航 */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumb-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+.breadcrumb-current {
+  color: #333;
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  color: #999;
+  margin: 0 0.3rem;
+}
+
+/* 右侧操作区 */
+.page-header-actions {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1rem;
+  }
+
+  .page-header-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .btn-back-header {
+    width: 100%;
+    text-align: center;
+  }
+
+  .page-header-center {
+    order: -1;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .breadcrumbs {
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .page-header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.3rem;
+  }
+
+  .breadcrumbs {
+    font-size: 0.8rem;
+  }
+
+  .btn-back-header {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
